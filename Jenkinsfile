@@ -38,10 +38,16 @@ pipeline {
         stage('Deploy to Local Server (CD)') {
             steps {
                 script {
-                    echo "Deploying the tested containers..."
-                    // This command safely restarts only the backend and frontend with the fresh code
-                    // It intentionally leaves the PostgreSQL database running so no data is lost
-                    sh 'docker compose up -d --no-deps backend frontend'
+                    echo "Installing Docker Compose and Deploying..."
+                    sh '''
+                    # 1. Download the Docker Compose plugin directly into the Jenkins container
+                    mkdir -p ~/.docker/cli-plugins/
+                    curl -SL https://github.com/docker/compose/releases/download/v2.24.5/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
+                    chmod +x ~/.docker/cli-plugins/docker-compose
+                    
+                    # 2. Deploy the containers to your local machine using the correct project network
+                    docker compose -p fifa-ai-simulator up -d --no-deps backend frontend
+                    '''
                 }
             }
         }
