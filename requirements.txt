@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg[binary]
+pgvector
+langchain
+langchain-google-genai
+langgraph
+duckduckgo-search
+pandas
+streamlit
+requests
+plotly
+python-dotenv
+langchain-community
+duckduckgo-search

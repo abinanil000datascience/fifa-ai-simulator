@@ -1,0 +1,9 @@
+# FIFA 2026 Autonomous Simulator - AI Guidelines
+
+- Goal: We are building an enterprise-grade Agentic RAG platform simulating the 2026 World Cup.
+- Tech Stack: Python 3.11, FastAPI, PostgreSQL (with pgvector), SQLAlchemy, LangChain, Docker.
+- Rules:
+  - Write clean, modular Python code.
+  - Never use SQLite; always assume a PostgreSQL database.
+  - Provide complete, copy-pasteable files, avoiding placeholders.
+  - Always separate database schemas (models) from API endpoints (routers).
