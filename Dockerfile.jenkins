@@ -1,0 +1,10 @@
+FROM jenkins/jenkins:lts
+USER root
+
+# Install Docker CLI so Jenkins can run 'docker build' commands
+RUN apt-get update && apt-get install -y docker.io
+
+# Grant Jenkins permissions to use the Docker daemon
+RUN usermod -aG docker jenkins
+
+USER jenkins

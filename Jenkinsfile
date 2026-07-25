@@ -4,7 +4,6 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                // This pulls the latest code from your GitHub repo
                 checkout scm
             }
         }
@@ -14,6 +13,16 @@ pipeline {
                 script {
                     echo "Building FastAPI Backend..."
                     sh 'docker build -f Dockerfile.backend -t fifa-ai-backend:latest .'
+                }
+            }
+        }
+
+        stage('Run Automated Tests') {
+            steps {
+                script {
+                    echo "Running PyTest against the Backend..."
+                    // We spin up a temporary container from the image we just built to run the tests
+                    sh 'docker run --rm fifa-ai-backend:latest pytest tests/test_api.py'
                 }
             }
         }
