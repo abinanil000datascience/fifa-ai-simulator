@@ -17,11 +17,10 @@ pipeline {
             }
         }
 
-        stage('Run Automated Tests') {
+        stage('Run Automated Tests (CI)') {
             steps {
                 script {
                     echo "Running PyTest against the Backend..."
-                    // We spin up a temporary container from the image we just built to run the tests
                     sh 'docker run --rm fifa-ai-backend:latest pytest tests/test_api.py'
                 }
             }
@@ -32,6 +31,17 @@ pipeline {
                 script {
                     echo "Building Streamlit Frontend..."
                     sh 'docker build -f Dockerfile.frontend -t fifa-ai-frontend:latest .'
+                }
+            }
+        }
+
+        stage('Deploy to Local Server (CD)') {
+            steps {
+                script {
+                    echo "Deploying the tested containers..."
+                    // This command safely restarts only the backend and frontend with the fresh code
+                    // It intentionally leaves the PostgreSQL database running so no data is lost
+                    sh 'docker compose up -d --no-deps backend frontend'
                 }
             }
         }
